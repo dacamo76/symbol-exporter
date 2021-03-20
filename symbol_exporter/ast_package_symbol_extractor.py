@@ -170,6 +170,13 @@ expected = {
     },
 }
 
+
+def make_json_friendly(data):
+    if isinstance(data, set):
+        return list(sorted(data))
+    return data
+
+
 if __name__ == "__main__":
     import argparse
     import json
@@ -183,7 +190,7 @@ if __name__ == "__main__":
     pprint(args.filename)
     dsf = DirectorySymbolFinder(args.filename)
     symbols = dsf.extract_symbols()
-    json.dump(symbols, sys.stdout, indent=2)
+    json.dump(symbols, sys.stdout, indent=2, default=make_json_friendly)
     assert symbols == expected
 
 # TODO:
